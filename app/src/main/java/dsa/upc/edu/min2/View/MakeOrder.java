@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -25,7 +26,7 @@ import retrofit2.Response;
 
 public class MakeOrder extends Activity implements View.OnClickListener  {
 
-    private ProgressBar progressBar;
+    private ProgressBar progressBar2;
     private TextView item1View;
     private TextView item2View;
     private Button orderButton;
@@ -35,11 +36,11 @@ public class MakeOrder extends Activity implements View.OnClickListener  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_order);
         Intent intent = getIntent();
-        user = intent.getParcelableExtra("data");
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-        item1View = (EditText) findViewById(R.id.idText);
-        item2View = (EditText) findViewById(R.id.passwordText);
+        user = intent.getParcelableExtra("user");
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar2.setVisibility(View.GONE);
+        item1View = (EditText) findViewById(R.id.item1View);
+        item2View = (EditText) findViewById(R.id.item2View);
         orderButton = (Button) findViewById(R.id.orderButton);
         orderButton.setOnClickListener(this);
 
@@ -57,8 +58,8 @@ public class MakeOrder extends Activity implements View.OnClickListener  {
 
     private void getMakeOrder(String item1Name, String item2Name) {
 
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(10);
+        progressBar2.setVisibility(View.VISIBLE);
+        progressBar2.setProgress(10);
         List<Product> products = new ArrayList<>();
         Product p1 = new Product();
         Product p2 = new Product();
@@ -74,7 +75,10 @@ public class MakeOrder extends Activity implements View.OnClickListener  {
     private class GetMakeOrderCallback implements retrofit2.Callback<Boolean> {
         @Override
         public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-            //Start a new an activity and pass the list
+            Toast.makeText(getBaseContext(), "An order has been added. We got a "+response.body()+" from server.", Toast.LENGTH_SHORT).show();
+            progressBar2.setProgress(100);
+
+            finish();
         }
 
         @Override

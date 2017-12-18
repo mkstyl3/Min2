@@ -13,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dsa.upc.edu.min2.Controller.ApiAdapter;
@@ -22,21 +24,28 @@ import dsa.upc.edu.min2.Model.Product;
 import dsa.upc.edu.min2.Model.User;
 import dsa.upc.edu.min2.R;
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
     private List<Product> products;
-    private Intent intent;
+    private Intent intent2;
+    private Intent intent3;
+    private ProgressBar progressBar3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        intent = getIntent();
+        Intent intent = getIntent();
         user = intent.getParcelableExtra("data");
+        intent2 = new Intent(getBaseContext(), MakeOrder.class);
+        intent2.putExtra("user",user);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
+        progressBar3.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -97,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_makeOrder) {
-            startActivityForResult(intent, 3);
+            startActivityForResult(intent2, 3);
         } else if (id == R.id.nav_productList) {
 
 
@@ -115,5 +124,28 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void getProducts() {
+        progressBar3.setVisibility(View.VISIBLE);
+        progressBar3.setProgress(10);
+        Call<List<Product>> call = ApiAdapter.getApiService("http://10.0.2.2:8080/min1/").getProductsService();
+        call.enqueue(new GetProductsCallback());
+    }
+
+    private class GetProductsCallback implements retrofit2.Callback<List<Product>> {
+        @Override
+        public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            progressBar3.setProgress(40);
+
+            List<Product> products = response.body();
+            intent3 = new Intent(getBaseContext(), ProductList.class);
+            intent3.putParcelableArrayListExtra("products", (ArrayList) products);
+        }
+
+        @Override
+        public void onFailure(Call<List<Product>> call, Throwable t) {
+
+        }
     }
 }

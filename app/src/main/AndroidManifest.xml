@@ -25,7 +25,8 @@
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".View.MakeOrder"></activity>
+        <activity android:name=".View.MakeOrder" />
+        <activity android:name=".View.ProductList"></activity>
     </application>
 
 </manifest>
