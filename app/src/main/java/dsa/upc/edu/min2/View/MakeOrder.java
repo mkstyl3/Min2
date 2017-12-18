@@ -77,7 +77,6 @@ public class MakeOrder extends Activity implements View.OnClickListener  {
         public void onResponse(Call<Boolean> call, Response<Boolean> response) {
             Toast.makeText(getBaseContext(), "An order has been added. We got a "+response.body()+" from server.", Toast.LENGTH_SHORT).show();
             progressBar2.setProgress(100);
-
             finish();
         }
 

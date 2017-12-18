@@ -9,17 +9,16 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Make Order" />
         <item
-            android:id="@+id/nav_productList"
+            android:id="@+id/nav_serveOrder"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Product List" />
+            android:title="Serve an Order" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_listServedProducts"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Served Products" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/ic_menu_manage" />
     </group>
 
     <item android:title="Communicate">

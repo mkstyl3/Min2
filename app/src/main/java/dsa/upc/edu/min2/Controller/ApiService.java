@@ -19,9 +19,12 @@ public interface ApiService {
     @POST("orders/userLogin")
     Call<User> loginService(@Body User user);
 
-    @GET("products/getAllSortedByCost")
+    @GET("orders/products/getAllSortedByCost")
     Call<List<Product>> getProductsService();
 
     @POST("orders/{id}/makeOrder")
     Call<Boolean> makeOrderService (@Path("id") int id, @Body List<Product> products);
+
+    @GET("orders/serve")
+    Call<Boolean> getServeOrderService();
 }

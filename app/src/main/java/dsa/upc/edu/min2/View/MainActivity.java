@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,12 +108,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_makeOrder) {
             startActivityForResult(intent2, 3);
-        } else if (id == R.id.nav_productList) {
-
-
-
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.nav_serveOrder) {
+            getServeOrder();
+        } else if (id == R.id.nav_listServedProducts) {
+            getProducts();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -126,12 +125,35 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void getServeOrder() {
+        progressBar3.setVisibility(View.VISIBLE);
+        progressBar3.setProgress(10);
+        Call<Boolean> call = ApiAdapter.getApiService("http://10.0.2.2:8080/min1/").getServeOrderService();
+        call.enqueue(new GetServeOrderCallback());
+    }
+
+    private class GetServeOrderCallback implements retrofit2.Callback<Boolean> {
+        @Override
+        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            progressBar3.setProgress(100);
+            Toast.makeText(getBaseContext(), "An order has been served. We got a "+response.body()+" from server.", Toast.LENGTH_SHORT).show();
+            progressBar3.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onFailure(Call<Boolean> call, Throwable t) {
+
+        }
+    }
+
     private void getProducts() {
         progressBar3.setVisibility(View.VISIBLE);
         progressBar3.setProgress(10);
         Call<List<Product>> call = ApiAdapter.getApiService("http://10.0.2.2:8080/min1/").getProductsService();
         call.enqueue(new GetProductsCallback());
     }
+
+
 
     private class GetProductsCallback implements retrofit2.Callback<List<Product>> {
         @Override
@@ -141,6 +163,9 @@ public class MainActivity extends AppCompatActivity
             List<Product> products = response.body();
             intent3 = new Intent(getBaseContext(), ProductList.class);
             intent3.putParcelableArrayListExtra("products", (ArrayList) products);
+            progressBar3.setProgress(100);
+            progressBar3.setVisibility(View.GONE);
+            startActivity(intent3);
         }
 
         @Override
@@ -148,4 +173,6 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
+
 }
