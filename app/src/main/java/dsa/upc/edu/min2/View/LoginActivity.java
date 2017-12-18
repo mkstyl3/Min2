@@ -9,7 +9,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dsa.upc.edu.min2.Controller.ApiAdapter;
+import dsa.upc.edu.min2.Model.Product;
 import dsa.upc.edu.min2.Model.User;
 import dsa.upc.edu.min2.R;
 import retrofit2.Call;
@@ -26,6 +30,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Button loginButton;
     protected Intent intent;
     private ProgressBar progressBar;
+    private List<Product> products;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +45,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         progressBar.setVisibility(View.GONE);
         intent = new Intent(getBaseContext(), MainActivity.class);
     }
+
     @Override
     public void onClick(View view) {
         if (usernameText.getText().length() != 0 && passwordText.getText().length() != 0) {
             username = usernameText.getText().toString();
             password = passwordText.getText().toString();
-            getUserLogin(username,password);
+            getUserLogin(username, password);
         }
     }
 
     private void getUserLogin(String username, String password) {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setProgress(10);
-        User u = new User();// localhost:8080/min1/orders/
+        User u = new User();
         u.setUsername(username);
         u.setPassword(password);
-        Call<User> call = ApiAdapter.getApiService("http://10.0.2.2:8080/min1/orders/").loginService(u);
+        Call<User> call = ApiAdapter.getApiService("http://10.0.2.2:8080/min1/").loginService(u);
         call.enqueue(new GetUserLoginCallback());
     }
 

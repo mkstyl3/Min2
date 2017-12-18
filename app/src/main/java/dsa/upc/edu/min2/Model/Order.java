@@ -3,6 +3,8 @@ package dsa.upc.edu.min2.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,9 @@ import java.util.List;
 
 public class Order implements Parcelable{
     //Variable declaration
+    @Expose
     private List<Product> products;
+    @Expose
     private int userId;
 
 

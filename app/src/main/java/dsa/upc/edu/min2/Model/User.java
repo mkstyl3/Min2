@@ -16,19 +16,18 @@ public class User implements Parcelable{
     @SerializedName("id")
     @Expose
     private int id;
-
-    public User(int id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
-
     @SerializedName("username")
     @Expose
     private String username;
     @SerializedName("password")
     @Expose
     private String password;
+
+    public User(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
 
     public String getPassword() {
         return password;

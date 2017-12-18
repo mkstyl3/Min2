@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by mike on 18/12/17.
@@ -12,10 +13,13 @@ import com.google.gson.annotations.Expose;
 public class Product implements Parcelable {
     //Variable declaration
 
+    @SerializedName("id")
     @Expose
     private int id;
+    @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("cost")
     @Expose
     private int cost;
 
